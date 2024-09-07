@@ -68,9 +68,8 @@ def createKmlDoc(missionName):
             )
         )
     )
-def writeRoute(path):
-    mission = Mission()
-    mission.load_file(path)
+def writeRoute(mission, path):
+    
     presets = {}
     
     missionName = Path(path).stem
@@ -94,8 +93,29 @@ def writeRoute(path):
             out.write(flightName+'\n')
             out.writelines(waypoints)
             out.write("\n")
+            
+def toAirspace(point):
+    latlng = point.latlng()
+    return {"lat":latlng.lat,"lon":latlng.lng}
+
+def writeAirspace(mission: Mission):
+    airspace = {}
+    items = [item for layer in mission.drawings.layers for item in layer.objects]
+    for item in items:
+        if not item.name.upper() in ["A", "B"]:
+            continue
+
+        airspace[f'BKY{item.name.upper()}'] = {"closed" : False, "points":[toAirspace(point+item.position) for point in item.points]}
+    airspaceStr = lua.dumps(airspace, "airspace",1)
+    fileName =f'customerAirSpace_{mission.terrain.name}.lua'
+    with open(fileName,"w") as outFile:
+        outFile.write(airspaceStr)
 
 if __name__ =="__main__":
     path = sys.argv[1]
-    writeRoute(path)
+    mission = Mission()
+    mission.load_file(path)
+    writeAirspace(mission)
+    writeRoute(mission, path)
+    
     
