@@ -106,6 +106,8 @@ def writeAirspace(mission: Mission):
             continue
 
         airspace[f'BKY{item.name.upper()}'] = {"closed" : False, "points":[toAirspace(point+item.position) for point in item.points]}
+    if len(airspace) == 0:
+        return
     airspaceStr = lua.dumps(airspace, "airspace",1)
     fileName =f'customerAirSpace_{mission.terrain.name}.lua'
     with open(fileName,"w") as outFile:
