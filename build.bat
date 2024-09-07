@@ -1,1 +1,1 @@
-pyinstaller.exe MizToRoute.spec
+pyinstaller.exe MizToRoute/MizToRoute.spec
