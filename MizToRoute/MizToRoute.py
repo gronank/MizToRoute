@@ -26,7 +26,7 @@ def toCoordString(waypoint):
     lat = abs(p.lat)
     (longMin,longDeg) = math.modf(p.lng)
     (latMin,latDeg) = math.modf(p.lat)
-    return f"{NS}{latDeg:0.0f} {latMin*60:06.3f} {EW}{longDeg:0.0f} {longMin*60:06.3f}\n"
+    return f"{NS}{latDeg:0.0f} {latMin*60:06.3f} {EW}{longDeg:0.0f} {longMin*60:06.3f}"
 
 def toKmlPoint(waypoint):
     altMode="absolute" if waypoint.alt_type == "BARO" else "relativeToGround"
@@ -49,7 +49,9 @@ def exportKml(doc, group):
 def exportWaypointCoords(flights, group):
     coordinateString = []
     for wp in group.points[1:]:
-        coordinateString.append(toCoordString(wp))
+        coordText = f"{toCoordString(wp)}  {wp.name}".rstrip()
+        coordinateString.append(coordText)
+        
     flights[group.name] = coordinateString
     
 def createKmlDoc(missionName):
@@ -91,7 +93,7 @@ def writeRoute(mission, path):
     with open(f"{missionName}.txt","w") as out:
         for flightName, waypoints in flights.items():
             out.write(flightName+'\n')
-            out.writelines(waypoints)
+            out.writelines("\n".join(waypoints))
             out.write("\n")
             
 def toAirspace(point):
