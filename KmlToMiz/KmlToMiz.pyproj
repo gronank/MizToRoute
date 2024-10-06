@@ -11,6 +11,9 @@
     <OutputPath>.</OutputPath>
     <Name>KmlToMiz</Name>
     <RootNamespace>KmlToMiz</RootNamespace>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <CommandLineArguments>readRules.json</CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,6 +25,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="KmlToMiz.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="readRules.json" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

@@ -1,0 +1,11 @@
+{
+  "url": "https://www.google.com/maps/d/viewer?ll=51.44559675906657%2C39.682845549999946&z=3&mid=1H7bMks-vozCAXD6n_21bEnZ0JrXALsE",
+  "layers": [
+    {
+      "name": "FEZ/BE layer",
+      "symbolRules": [ [ ".*", "P91000109.png" ] ],
+      "symbolColor": [ 128, 224, 255, 230 ]
+    }
+  ]
+
+}
