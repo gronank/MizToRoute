@@ -78,45 +78,52 @@ def modifyLink(link):
     mid = parse_qs(url.query)["mid"][0]
     base = link.split("?")[0]
     base = base.replace("/viewer","/kml")
+    base = base.replace("/edit","/kml")
     return f"{base}?mid={mid}&resourcekey&forcekml=1"
+
+def parseKMLSite(layerDcs, rules):
+    
+
+    
+    modifiedLink = modifyLink(rules["url"])
+    response = url.urlopen(modifiedLink)
+    if response.status != 200:
+        print(f"Unexpected error: {response.reson}")
+    result = response.read()
+    kmlDoc = etree.fromstring(result)
+
+    for layerRule in rules["layers"]:
+        layerName = layerRule["name"]
+        layerKml = kmlDoc.xpath(f".//*[text()='{layerName}']")[0].getparent()
+        if layerRule.get("isLine",False):
+            points = parseCoordinates(layerKml, terrain)
+            layerDcs.add_line_freeform(Point(0,0,terrain),points)
+            continue
+        color = [int(i) for i in layerRule["symbolColor"]]
+        pictureRules = {re.compile(rule):value for (rule,value) in layerRule["symbolRules"]}
+        if layerRule.get("readPolygons",False):
+            addPolygons(layerDcs, layerKml, kmlDoc, terrain)
+        addSymbols(layerDcs, layerKml, Rgba(*color), terrain, pictureRules)
+    return kmlDoc.findtext(".//{http://www.opengis.net/kml/2.2}name")
+terrain = Kola()
+
+
+mission = Mission(terrain)
+layerDcs = mission.drawings.get_layer_by_name("Author")
 
 jsonPath = argv[1]
 with open(jsonPath,"r") as jsonFile:
     rules = json.loads(jsonFile.read())
+missionName ="default"
+for layerRule in rules:
+    name = parseKMLSite(layerDcs, layerRule)
+    if missionName == "default":
+        missionName = name
 
-    
-modifiedLink = modifyLink(rules["url"])
-response = url.urlopen(modifiedLink)
-if response.status != 200:
-    print(f"Unexpected error: {response.reson}")
-
-kmlDoc = etree.fromstring(response.read())
-
-febaName = kmlDoc.xpath(".//*[text()='Forward Edge of Battle Area']")[0]
-feba = febaName.getparent()
-
-terrain = Kola()
-points = parseCoordinates(feba, terrain)
-
-mission = Mission(terrain)
-layerDcs = mission.drawings.get_layer_by_name("Author")
-layerDcs.add_line_freeform(Point(0,0,terrain),points)
-
-
-for layerRule in rules["layers"]:
-    layerName = layerRule["name"]
-    layerKml = kmlDoc.xpath(f".//*[text()='{layerName}']")[0].getparent()
-    color = [int(i) for i in layerRule["symbolColor"]]
-    pictureRules = {re.compile(rule):value for (rule,value) in layerRule["symbolRules"]}
-    addPolygons(layerDcs, layerKml, kmlDoc, terrain)
-    addSymbols(layerDcs, layerKml, Rgba(*color), terrain, pictureRules)
 
 #alpha = 230
 #russianSymbols = kmlDoc.xpath(".//*[text()='Russian Ground Forces']")[0].getparent()
 #addSymbols(layerDcs, russianSymbols, Rgba(255,128,128,alpha), terrain)
 
 #natoSymbols = kmlDoc.xpath(".//*[text()='Combined Force Land Component']")[0].getparent()
-
-missionName = kmlDoc.findtext(".//{http://www.opengis.net/kml/2.2}name")
 mission.save(f"{missionName}.miz")
-print(modifiedLink=="https://www.google.com/maps/d/u/0/kml?mid=11wFbORd-qUVfdvC7emmXcKaj_JG4H38&resourcekey&forcekml=1")

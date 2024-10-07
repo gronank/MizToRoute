@@ -1,11 +1,46 @@
-{
-  "url": "https://www.google.com/maps/d/viewer?ll=51.44559675906657%2C39.682845549999946&z=3&mid=1H7bMks-vozCAXD6n_21bEnZ0JrXALsE",
-  "layers": [
-    {
-      "name": "FEZ/BE layer",
-      "symbolRules": [ [ ".*", "P91000109.png" ] ],
-      "symbolColor": [ 128, 224, 255, 230 ]
-    }
-  ]
+[
+  {
+    "url": "https://www.google.com/maps/d/viewer?ll=51.44559675906657%2C39.682845549999946&z=3&mid=1H7bMks-vozCAXD6n_21bEnZ0JrXALsE",
+    "layers": [
+      {
+        "name": "FEZ/BE layer",
+        "symbolRules": [ [ ".*", "P91000109.png" ] ],
+        "symbolColor": [ 128, 224, 255, 230 ],
+        "readPolygons": true
+      },
+      {
+        "name": "Forward Edge of Battle Area",
+        "isLine": true
+      }
+    ]
 
-}
+  },
+  {
+    "url": "https://www.google.com/maps/d/u/3/edit?mid=16tQROdNbTPUg7jdOvTNrthEuqH0JJaI&ll=67.7465918474517%2C25.824940072413348&z=8",
+    "layers": [
+      {
+        "name": "Targets",
+        "symbolRules": [
+          [ "Destroyed", "P91000072.png" ],
+          [ ".*", "P91000002.png" ]
+        ],
+        "symbolColor": [ 255, 128, 128, 230 ]
+      },
+      {
+        "name": "REDFOR Bases",
+        "symbolRules": [ [ ".*", "P91000207.png" ] ],
+        "symbolColor": [ 255, 128, 128, 230 ]
+      },
+      {
+        "name": "SHORAD",
+        "symbolRules": [ [ ".*", "P91000202.png" ] ],
+        "symbolColor": [ 255, 128, 128, 230 ]
+      },
+      {
+        "name": "LORAD",
+        "symbolRules": [ [ ".*", "P91000082.png" ] ],
+        "symbolColor": [ 255, 128, 128, 230 ]
+      }
+    ]
+  }
+]
