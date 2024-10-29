@@ -5,6 +5,10 @@ VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "MizToRoute", "MizToRoute\MizToRoute.pyproj", "{C288B7CF-9CC7-4C96-A369-484228A26925}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "KmlToMiz", "KmlToMiz\KmlToMiz.pyproj", "{2049F14E-8C27-4EB8-859E-B4B59DA9F7C3}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "KmlToEnv", "KmlToEnv\KmlToEnv.pyproj", "{4961B056-3048-4938-A4C0-ACCE4782E573}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +17,10 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C288B7CF-9CC7-4C96-A369-484228A26925}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C288B7CF-9CC7-4C96-A369-484228A26925}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2049F14E-8C27-4EB8-859E-B4B59DA9F7C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2049F14E-8C27-4EB8-859E-B4B59DA9F7C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4961B056-3048-4938-A4C0-ACCE4782E573}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4961B056-3048-4938-A4C0-ACCE4782E573}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
