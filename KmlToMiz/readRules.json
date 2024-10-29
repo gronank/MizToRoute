@@ -5,6 +5,11 @@
       {
         "name": "FEZ/BE layer",
         "symbolRules": [ [ ".*", "P91000109.png" ] ],
+        "symbolColor": [ 128, 224, 255, 230 ]
+      },
+      {
+        "name": "Airspace, zones, boundaries",
+        "symbolRules": [ [ ".*", "P91000109.png" ] ],
         "symbolColor": [ 128, 224, 255, 230 ],
         "readPolygons": true
       },
@@ -32,12 +37,12 @@
         "symbolColor": [ 255, 128, 128, 230 ]
       },
       {
-        "name": "SHORAD",
+        "name": "SHORAD Recent",
         "symbolRules": [ [ ".*", "P91000202.png" ] ],
         "symbolColor": [ 255, 128, 128, 230 ]
       },
       {
-        "name": "LORAD",
+        "name": "LORAD Recent",
         "symbolRules": [ [ ".*", "P91000082.png" ] ],
         "symbolColor": [ 255, 128, 128, 230 ]
       }
