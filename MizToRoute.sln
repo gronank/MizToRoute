@@ -9,6 +9,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "KmlToMiz", "KmlToMiz\KmlToM
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "KmlToEnv", "KmlToEnv\KmlToEnv.pyproj", "{4961B056-3048-4938-A4C0-ACCE4782E573}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "TacviewMerger", "TacviewMerger\TacviewMerger.pyproj", "{1EE5AC2D-62C0-49DD-952A-3F62DA381185}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,8 @@ Global
 		{2049F14E-8C27-4EB8-859E-B4B59DA9F7C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4961B056-3048-4938-A4C0-ACCE4782E573}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4961B056-3048-4938-A4C0-ACCE4782E573}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EE5AC2D-62C0-49DD-952A-3F62DA381185}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EE5AC2D-62C0-49DD-952A-3F62DA381185}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
