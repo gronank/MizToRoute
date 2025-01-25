@@ -5,6 +5,8 @@ import sys
 import math
 from lxml import etree
 from pathlib import Path
+from CreateKneeboard import printKneeboard
+from FuelCalculation import FuelConsumption
 
 stylename = "waypointStyle"
 
@@ -27,6 +29,24 @@ def toCoordString(waypoint):
     (longMin,longDeg) = math.modf(p.lng)
     (latMin,latDeg) = math.modf(p.lat)
     return f"{NS}{latDeg:0.0f} {latMin*60:06.3f} {EW}{longDeg:0.0f} {longMin*60:06.3f}"
+
+def degMinSec(deg):
+    deg = abs(deg)
+    (minutes, deg) = math.modf(deg)
+    minutes*=60
+    (sec, minutes) = math.modf(minutes)
+    sec*=60
+    return [deg, minutes, sec]
+    
+def toJeffCoordString(waypoint):
+    p = waypoint.position.latlng()
+    NS = "N" if p.lng >= 0 else "S"
+    EW = "E" if p.lat >= 0 else "W"
+    
+    (latDeg,latMin, latSec) = degMinSec(p.lat)
+    (longDeg,longMin, longSec) = degMinSec(p.lng)
+
+    return f"{NS}{latDeg:02.0f} {latMin:02.0f} {latSec:04.1f} {EW}{longDeg:03.0f} {longMin:02.0f} {longSec:04.1f}"
 
 def toKmlPoint(waypoint):
     altMode="absolute" if waypoint.alt_type == "BARO" else "relativeToGround"
@@ -55,7 +75,6 @@ def exportWaypointCoords(flights, group):
     flights[group.name] = coordinateString
     
 def createKmlDoc(missionName):
-    
     return KML.kml(
         KML.Document(
             KML.Name(missionName),
@@ -70,10 +89,9 @@ def createKmlDoc(missionName):
             )
         )
     )
+
 def writeRoute(mission, path):
-    
     presets = {}
-    
     missionName = Path(path).stem
     doc = createKmlDoc(path)
     flights = {}
@@ -82,7 +100,6 @@ def writeRoute(mission, path):
         exportKml(doc, group)
         exportWaypointCoords(flights, group)
         
-
     routeStr = lua.dumps(presets, "presets",1)
 
     fileName = f"{mission.terrain.name}.lua"
@@ -115,11 +132,30 @@ def writeAirspace(mission: Mission):
     with open(fileName,"w") as outFile:
         outFile.write(airspaceStr)
 
+def writeKneeboard(mission, path):
+    for group in loopGroups(mission):
+        replacements = {}
+        fuel = FuelConsumption(group)
+        replacements[(2,3)] = [group.name, group.units[0].type]
+        waypoints = []
+        for i, wp in enumerate(group.points[1:]):
+            fp = fuel.points[i]
+            wpData = [str(i+1), wp.name, toJeffCoordString(wp), str(round(fp.remaining)) ]
+            if fp.timeOnStation > 0:
+                wpData.append(str(round(fp.timeOnStation)))
+            waypoints.append(wpData)
+            
+        replacements[(5,1)] = waypoints
+        replacements[(2,5)] = [str(int(round(fuel.bingo,-2))), str(int(round(fuel.joker,-2)))]
+        printKneeboard(replacements, 'WP_base.xhtml', f'{group.name}.png')
+
 if __name__ =="__main__":
     path = sys.argv[1]
     mission = Mission()
     mission.load_file(path)
+    writeKneeboard(mission,path)
     writeAirspace(mission)
     writeRoute(mission, path)
+    
     
     
