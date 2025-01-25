@@ -12,7 +12,7 @@
     <Name>MizToRoute</Name>
     <RootNamespace>MizToRoute</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>"C:\Users\ander\Saved Games\DCS\Missions\WolfPlan2.miz"</CommandLineArguments>
+    <CommandLineArguments>"C:\Users\ander\source\repos\MizToRoute_github\MizToRoute\WolfCap.miz"</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -24,10 +24,18 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FuelCalculation.py" />
     <Compile Include="MizToRoute.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="requirements.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CreateKneeboard\CreateKneeboard.pyproj">
+      <Name>CreateKneeboard</Name>
+      <Project>{4f4258f7-5692-4078-9408-0e2283980490}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

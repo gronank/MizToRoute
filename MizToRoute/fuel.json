@@ -1,0 +1,14 @@
+{
+  "JF-17": {
+    "climb": 500,
+    "lbsPerNm": 7.3,
+    "lbsPerHour": 3360,
+    "fightFuel": 500,
+    "reserveFuel": 500,
+    "internalFuel": 5125,
+    "tanks": {
+      "DIS_TANK800": 1500,
+      "DIS_TANK1100": 2100
+    }
+  }
+}
