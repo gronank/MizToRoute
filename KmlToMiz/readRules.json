@@ -37,12 +37,12 @@
         "symbolColor": [ 255, 128, 128, 230 ]
       },
       {
-        "name": "SHORAD Recent",
+        "name": "MERRAD",
         "symbolRules": [ [ ".*", "P91000202.png" ] ],
         "symbolColor": [ 255, 128, 128, 230 ]
       },
       {
-        "name": "LORAD Recent",
+        "name": "LORAD",
         "symbolRules": [ [ ".*", "P91000082.png" ] ],
         "symbolColor": [ 255, 128, 128, 230 ]
       }

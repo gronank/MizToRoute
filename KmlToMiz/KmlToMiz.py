@@ -82,9 +82,6 @@ def modifyLink(link):
     return f"{base}?mid={mid}&resourcekey&forcekml=1"
 
 def parseKMLSite(layerDcs, rules):
-    
-
-    
     modifiedLink = modifyLink(rules["url"])
     response = url.urlopen(modifiedLink)
     if response.status != 200:
@@ -94,16 +91,17 @@ def parseKMLSite(layerDcs, rules):
 
     for layerRule in rules["layers"]:
         layerName = layerRule["name"]
-        layerKml = kmlDoc.xpath(f".//*[text()='{layerName}']")[0].getparent()
-        if layerRule.get("isLine",False):
-            points = parseCoordinates(layerKml, terrain)
-            layerDcs.add_line_freeform(Point(0,0,terrain),points)
-            continue
-        color = [int(i) for i in layerRule["symbolColor"]]
-        pictureRules = {re.compile(rule):value for (rule,value) in layerRule["symbolRules"]}
-        if layerRule.get("readPolygons",False):
-            addPolygons(layerDcs, layerKml, kmlDoc, terrain)
-        addSymbols(layerDcs, layerKml, Rgba(*color), terrain, pictureRules)
+        for layerKmlChild in kmlDoc.xpath(f".//*[text()='{layerName}']"):
+            layerKml = layerKmlChild.getparent()
+            if layerRule.get("isLine",False):
+                points = parseCoordinates(layerKml, terrain)
+                layerDcs.add_line_freeform(Point(0,0,terrain),points)
+                continue
+            color = [int(i) for i in layerRule["symbolColor"]]
+            pictureRules = {re.compile(rule):value for (rule,value) in layerRule["symbolRules"]}
+            if layerRule.get("readPolygons",False):
+                addPolygons(layerDcs, layerKml, kmlDoc, terrain)
+            addSymbols(layerDcs, layerKml, Rgba(*color), terrain, pictureRules)
     return kmlDoc.findtext(".//{http://www.opengis.net/kml/2.2}name")
 terrain = Kola()
 
