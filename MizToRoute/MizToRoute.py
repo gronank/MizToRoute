@@ -3,6 +3,7 @@ from pykml.factory import KML_ElementMaker as KML
 import dcs.lua as lua
 import sys
 import math
+import os,shutil
 from lxml import etree
 from pathlib import Path
 from CreateKneeboard import printKneeboard
@@ -90,7 +91,7 @@ def createKmlDoc(missionName):
         )
     )
 
-def writeRoute(mission, path):
+def writeRoute(mission, path, outFolder):
     presets = {}
     missionName = Path(path).stem
     doc = createKmlDoc(path)
@@ -102,12 +103,12 @@ def writeRoute(mission, path):
         
     routeStr = lua.dumps(presets, "presets",1)
 
-    fileName = f"{mission.terrain.name}.lua"
+    fileName = f"{outFolder}/{mission.terrain.name}.lua"
     with open(fileName,"w") as outFile:
         outFile.write(routeStr)
-    with open(f"{missionName}.kml","wb") as out:
+    with open(f"{outFolder}/{missionName}.kml","wb") as out:
         out.write(etree.tostring(doc, pretty_print=True))
-    with open(f"{missionName}.txt","w") as out:
+    with open(f"{outFolder}/{missionName}.txt","w") as out:
         for flightName, waypoints in flights.items():
             out.write(flightName+'\n')
             out.writelines("\n".join(waypoints))
@@ -117,7 +118,7 @@ def toAirspace(point):
     latlng = point.latlng()
     return {"lat":latlng.lat,"lon":latlng.lng}
 
-def writeAirspace(mission: Mission):
+def writeAirspace(mission: Mission, outFolder):
     airspace = {}
     items = [item for layer in mission.drawings.layers for item in layer.objects]
     for item in items:
@@ -128,11 +129,11 @@ def writeAirspace(mission: Mission):
     if len(airspace) == 0:
         return
     airspaceStr = lua.dumps(airspace, "airspace",1)
-    fileName =f'customerAirSpace_{mission.terrain.name}.lua'
+    fileName =f'{outFolder}/customerAirSpace_{mission.terrain.name}.lua'
     with open(fileName,"w") as outFile:
         outFile.write(airspaceStr)
 
-def writeKneeboard(mission, path):
+def writeKneeboard(mission, outFolder):
     for group in loopGroups(mission):
         replacements = {}
         fuel = FuelConsumption(group)
@@ -147,15 +148,20 @@ def writeKneeboard(mission, path):
             
         replacements[(5,1)] = waypoints
         replacements[(2,5)] = [str(int(round(fuel.bingo,-2))), str(int(round(fuel.joker,-2)))]
-        printKneeboard(replacements, 'WP_base.xhtml', f'{group.name}.png')
+        printKneeboard(replacements, 'WP_base.xhtml', f'{group.name}.png', outFolder)
 
 if __name__ =="__main__":
     path = sys.argv[1]
+    outFolder = Path(path).stem
+    if os.path.exists(outFolder) and os.path.isdir(outFolder):
+        shutil.rmtree(outFolder)
+    os.mkdir(outFolder)
+    
     mission = Mission()
     mission.load_file(path)
-    writeKneeboard(mission,path)
-    writeAirspace(mission)
-    writeRoute(mission, path)
+    writeKneeboard(mission,outFolder)
+    writeAirspace(mission,outFolder)
+    writeRoute(mission, path,outFolder)
     
     
     

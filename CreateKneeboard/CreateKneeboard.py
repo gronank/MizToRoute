@@ -15,9 +15,10 @@ def removeTextNodes(node):
         if child.nodeType == node.TEXT_NODE:
             node.firstChild.removeChild(child)
 
-def printKneeboard(replacements, baseHtml, outFile):
+def printKneeboard(replacements, baseHtml, outFile, outFolder = ""):
     kneeboardBaseXml = parse(baseHtml)
     grid = {}
+    hti.output_path = outFolder
     for i,row in enumerate(kneeboardBaseXml.getElementsByTagName("tr")):
         for j, cell in enumerate(row.getElementsByTagName("td")):
             grid[(i,j)] = cell
