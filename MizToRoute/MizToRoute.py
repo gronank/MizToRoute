@@ -7,7 +7,7 @@ import os,shutil
 from lxml import etree
 from pathlib import Path
 from CreateKneeboard import printKneeboard
-from FuelCalculation import FuelConsumption
+from FuelCalculation import CreateFuelConsumption
 
 stylename = "waypointStyle"
 
@@ -136,7 +136,9 @@ def writeAirspace(mission: Mission, outFolder):
 def writeKneeboard(mission, outFolder):
     for group in loopGroups(mission):
         replacements = {}
-        fuel = FuelConsumption(group)
+        fuel = CreateFuelConsumption(group)
+        if not fuel:
+            continue
         replacements[(2,3)] = [group.name, group.units[0].type]
         waypoints = []
         for i, wp in enumerate(group.points[1:]):

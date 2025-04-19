@@ -20,9 +20,15 @@ class FuelPoint:
     consumed:float
     timeOnStation:float
     
+def CreateFuelConsumption(group):
+    craftData = dict(fuel).get(group.units[0].type, None)
+    if not craftData:
+        return None;
+    return FuelConsumption(group, craftData)
+
 class FuelConsumption:
-    def __init__(self,group):
-        craftData = fuel[group.units[0].type]
+    def __init__(self,group, craftData):
+        
         remainingFuel = calculateFullFuel(craftData, group)
         self.points = []
         lastWp = None
