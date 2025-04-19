@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import json 
 kgToLbs = 2.20462262
 mPerNm = 1852
-missionWPs = ["cap"]
+missionWPs = ["cap","strike", "dead"]
 with open("fuel.json",'r') as fuelFile:
     fuel = json.load(fuelFile)
 
