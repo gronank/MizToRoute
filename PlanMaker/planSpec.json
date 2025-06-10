@@ -1,0 +1,17 @@
+{
+  "columnWidths": [ 10, 100, 120, 100, 100, 120, 100 ],
+  "headerRows": [
+    [ "#", "Name", "Velocity (IAS)", "Heading", "Tacan", "ETA",  "Fuel (lb)" ],
+    [
+      {
+        "name": "Position",
+        "colwidth": 3
+      },
+      "Distance",
+      "Offset",
+      "Duration (min)",
+      "Delta (lb)"
+    ]
+
+  ]
+}
